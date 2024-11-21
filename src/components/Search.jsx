@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { useState } from "react";
 
 const Search = (props) => {

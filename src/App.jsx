@@ -6,6 +6,7 @@ import axios from "axios";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
+  const [finalInput, setFinalInput] = useState("");
   const [movies, setMovies] = useState([
     {
       imbID: 16313,
@@ -16,7 +17,7 @@ function App() {
 
   const handleInput = (e) => {
     e.preventDefault();
-    setInputValue(e.target.search.value);
+    setFinalInput(e.target.search.value);
   };
 
   useEffect(() => {
@@ -30,10 +31,9 @@ function App() {
         })
         .then((res) => {
           setMovies(res.data.Search);
-          console.log(movies);
         });
     }
-  }, [inputValue]);
+  }, [finalInput]);
 
   return (
     <>
@@ -41,8 +41,8 @@ function App() {
         <form onSubmit={handleInput}>
           <Search
             name="search"
-            // value={inputValue}
-            // onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
         </form>
       </Header>
