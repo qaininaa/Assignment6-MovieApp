@@ -7,13 +7,7 @@ import axios from "axios";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [finalInput, setFinalInput] = useState("");
-  const [movies, setMovies] = useState([
-    {
-      imbID: 16313,
-      Poster: "../public/avengers.png",
-      Title: "The Avengers",
-    },
-  ]);
+  const [movies, setMovies] = useState([]);
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -31,7 +25,6 @@ function App() {
         })
         .then((res) => {
           setMovies(res.data.Search);
-          console.log(finalInput);
         });
     }
   }, [finalInput]);
@@ -50,12 +43,13 @@ function App() {
       <div className="mt-3 p-3">
         <h2 className="mb-10 font-bold text-xl">Show your favorite movies</h2>
         <div className="flex flex-wrap gap-y-3 gap-x-5 justify-evenly sm:justify-start content-start">
-          {movies.map((movie, index) => (
-            <Movie key={index}>
-              <Movie.Poster src={movie.Poster} />
-              <Movie.Title titleMovie={movie.Title} />
-            </Movie>
-          ))}
+          {finalInput.length > 0 &&
+            movies.map((movie, index) => (
+              <Movie key={index}>
+                <Movie.Poster src={movie.Poster} />
+                <Movie.Title titleMovie={movie.Title} />
+              </Movie>
+            ))}
         </div>
       </div>
     </>
