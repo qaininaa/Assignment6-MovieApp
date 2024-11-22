@@ -1,33 +1,53 @@
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Movie from "./components/Movie";
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import axios from "axios";
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "setInput":
+      return { ...state, inputValue: action.payload };
+    case "setFinalInput":
+      return { ...state, finalInput: action.payload };
+    case "setMovies":
+      return { ...state, movies: action.payload };
+    default:
+      return state;
+  }
+};
+
+const initialState = {
+  inputValue: "",
+  finalInput: "",
+  movies: [],
+};
+
 function App() {
-  const [inputValue, setInputValue] = useState("");
-  const [finalInput, setFinalInput] = useState("");
-  const [movies, setMovies] = useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleInput = (e) => {
     e.preventDefault();
-    setFinalInput(e.target.search.value);
+    dispatch({ type: "setFinalInput", payload: e.target.search.value });
   };
 
   useEffect(() => {
-    if (finalInput) {
+    if (state.finalInput) {
       axios
         .get("http://www.omdbapi.com/", {
           params: {
             apikey: "bd989636",
-            s: finalInput,
+            s: state.finalInput,
           },
         })
         .then((res) => {
-          setMovies(res.data.Search);
+          dispatch({ type: "setMovies", payload: res.data.Search || [] });
+        })
+        .catch((err) => {
+          console.error(err);
         });
     }
-  }, [finalInput]);
+  }, [state.finalInput]);
 
   return (
     <>
@@ -35,16 +55,18 @@ function App() {
         <form onSubmit={handleInput}>
           <Search
             name="search"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={state.inputValue}
+            onChange={(e) =>
+              dispatch({ type: "setInput", payload: e.target.value })
+            }
           />
         </form>
       </Header>
       <div className="mt-3 p-3">
         <h2 className="mb-10 font-bold text-xl">Show your favorite movies</h2>
         <div className="flex flex-wrap gap-y-3 gap-x-5 justify-evenly sm:justify-start content-start">
-          {finalInput.length > 0 &&
-            movies.map((movie, index) => (
+          {state.finalInput.length > 0 &&
+            state.movies.map((movie, index) => (
               <Movie key={index}>
                 <Movie.Poster src={movie.Poster} />
                 <Movie.Title titleMovie={movie.Title} />
