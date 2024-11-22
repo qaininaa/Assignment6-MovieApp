@@ -20,7 +20,13 @@ const reducer = (state, action) => {
 const initialState = {
   inputValue: "",
   finalInput: "",
-  movies: [],
+  movies: [
+    {
+      Poster: "./public/image.png",
+      Title: "Avengers: Endgame",
+      imdbID: "152514",
+    },
+  ],
 };
 
 function App() {
@@ -65,7 +71,7 @@ function App() {
       <div className="mt-3 p-3">
         <h2 className="mb-10 font-bold text-xl">Show your favorite movies</h2>
         <div className="flex flex-wrap gap-y-3 gap-x-5 justify-evenly sm:justify-start content-start">
-          {state.finalInput.length > 0 &&
+          {state.movies.length > 0 &&
             state.movies.map((movie) => (
               <Movie key={movie.imdbID}>
                 <Movie.Poster src={movie.Poster} />
