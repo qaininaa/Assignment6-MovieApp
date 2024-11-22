@@ -21,16 +21,17 @@ function App() {
   };
 
   useEffect(() => {
-    if (inputValue) {
+    if (finalInput) {
       axios
         .get("http://www.omdbapi.com/", {
           params: {
             apikey: "bd989636",
-            s: inputValue,
+            s: finalInput,
           },
         })
         .then((res) => {
           setMovies(res.data.Search);
+          console.log(finalInput);
         });
     }
   }, [finalInput]);

@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import { useState } from "react";
 
 const Search = (props) => {
@@ -13,6 +12,7 @@ const Search = (props) => {
           name={name}
           value={value}
           id="search"
+          placeholder="Search"
           className={`flex rounded py-1 px-5 h-full sm:px-8 ${
             focus ? "outline-2 outline-sky-900" : ""
           }`}
