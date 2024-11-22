@@ -66,8 +66,8 @@ function App() {
         <h2 className="mb-10 font-bold text-xl">Show your favorite movies</h2>
         <div className="flex flex-wrap gap-y-3 gap-x-5 justify-evenly sm:justify-start content-start">
           {state.finalInput.length > 0 &&
-            state.movies.map((movie, index) => (
-              <Movie key={index}>
+            state.movies.map((movie) => (
+              <Movie key={movie.imdbID}>
                 <Movie.Poster src={movie.Poster} />
                 <Movie.Title titleMovie={movie.Title} />
               </Movie>
